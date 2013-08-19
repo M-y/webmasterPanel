@@ -5,12 +5,13 @@
  */
 
 /// index.php dosyasının bulunduğu ana klasör
-/// @note / ile bitmeli
+/// @note / ile bitme'me'li
 /// @todo Bunu otomatik oluşturabiliriz. Elle girilmesi uygun değil
-define('anaKlasor', '/home/muhammed/DEPO/Webmaster/Webmaster Panel/www/');
+define('anaKlasor', '/home/muhammed/DEPO/Webmaster/Webmaster Panel/www');
 
 /// Site adresi
-/// @note http:// ile başlayıp / ile bitmeli
-define('siteAdresi', 'http://webmasterpanel/');
+/// @note http:// ile başlamalı
+///	  / ile bitme'me'li
+define('siteAdresi', 'http://webmasterpanel');
 
 ?>

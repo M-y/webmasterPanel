@@ -24,11 +24,11 @@ class webmasterPanel {
     $orta = ob_get_contents();
     ob_end_clean();
     
-    require(anaKlasor . 'temalar/' . $this -> seciliTema . '/ust.php');
+    require(anaKlasor . '/temalar/' . $this -> seciliTema . '/ust.php');
     
     echo $orta;
     
-    require(anaKlasor . 'temalar/' . $this -> seciliTema . '/alt.php');
+    require(anaKlasor . '/temalar/' . $this -> seciliTema . '/alt.php');
   }
   
   /**
@@ -45,7 +45,7 @@ class webmasterPanel {
    * @warning htmlCiktisiVer fonksiyonu çalışmadan önce çağrılması gerekir
    */
   function cssYukle($css) {
-    $this -> headEkle('<link type="text/css" href="' . ( (preg_match('#^http://*#i', $css)) ? $css : siteAdresi . 'css/' . $css ) . '" rel="styleSheet" />');
+    $this -> headEkle('<link type="text/css" href="' . ( (preg_match('#^http://*#i', $css)) ? $css : siteAdresi . '/css/' . $css ) . '" rel="styleSheet" />');
   }
   
   /**
@@ -54,14 +54,14 @@ class webmasterPanel {
    * @warning htmlCiktisiVer fonksiyonu çalışmadan önce çağrılması gerekir
    */
   function jsYukle($js) {
-    $this -> headEkle('<script src="' . ( (preg_match('#^http://*#i', $js)) ? $js : siteAdresi . 'js/' . $js ) . '" type="text/javascript"></script>');
+    $this -> headEkle('<script src="' . ( (preg_match('#^http://*#i', $js)) ? $js : siteAdresi . '/js/' . $js ) . '" type="text/javascript"></script>');
   }
   
   /**
    * Afilli bir hata mesajı
    */
   function hataMesaji($mesaj) {
-    require(anaKlasor . 'temalar/' . $this -> seciliTema . '/hataMesaji.php');
+    require(anaKlasor . '/temalar/' . $this -> seciliTema . '/hataMesaji.php');
   }
   
   /**
@@ -75,13 +75,13 @@ class webmasterPanel {
    * 	...
    */
   function moduller() {
-    foreach ( scandir(anaKlasor . 'moduller') as $bulunanModul ) {
+    foreach ( scandir(anaKlasor . '/moduller') as $bulunanModul ) {
       if ( pathinfo($bulunanModul, PATHINFO_EXTENSION) == 'php') { // tek dosyalı modül
-	$modul['ad'] = $this -> modulAdi(anaKlasor . 'moduller/' . $bulunanModul);
+	$modul['ad'] = $this -> modulAdi(anaKlasor . '/moduller/' . $bulunanModul);
 	$modul['kisaAd'] = pathinfo($bulunanModul, PATHINFO_FILENAME);
       }
-      else if ( file_exists(anaKlasor . 'moduller/' . $bulunanModul . '/' . $bulunanModul . '.php') ) {
-	$modul['ad'] = $this -> modulAdi(anaKlasor . 'moduller/' . $bulunanModul . '/' . $bulunanModul . '.php');
+      else if ( file_exists(anaKlasor . '/moduller/' . $bulunanModul . '/' . $bulunanModul . '.php') ) {
+	$modul['ad'] = $this -> modulAdi(anaKlasor . '/moduller/' . $bulunanModul . '/' . $bulunanModul . '.php');
 	$modul['kisaAd'] = $bulunanModul;
       }
       else
