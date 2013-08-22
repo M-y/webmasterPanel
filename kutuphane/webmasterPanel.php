@@ -3,7 +3,7 @@ require_once('ayarlar.php');
 ob_start();
 
 /**
- * Webmaster Panel Nesnesi
+ * Webmaster Panel Sınıfı
  */
 class webmasterPanel {
   

@@ -14,4 +14,9 @@ define('anaKlasor', '/home/muhammed/DEPO/Webmaster/Webmaster Panel/www');
 ///	  / ile bitme'me'li
 define('siteAdresi', 'http://webmasterpanel');
 
+define('sqlSunucu', 'localhost');
+define('sqlDB', 'webmasterPanel');
+define('sqlUser', 'webmasterPanel');
+define('sqlPass', 'SAJ6ZTycxYBMAA3v');
+
 ?>

@@ -1,5 +1,6 @@
 <?php
 require_once('kutuphane/ayarlar.php');
+require_once('kutuphane/veritabani.php');
 
 require(anaKlasor . '/kutuphane/webmasterPanel.php');
 $webmasterPanel = new webmasterPanel(); /// @warning bu nesne tanımlanmadan önce echo kesinlikle kullanılmamalı
@@ -16,6 +17,11 @@ foreach ( $moduller as $modul ) {
   echo '</li>';
 }
 echo '</ul>';
+
+$veritabani = new veritabani();
+
+$donen = $veritabani -> kayitOku("SELECT * FROM tablo WHERE test='deneme' or no = 1");
+var_dump($donen);
 
 $webmasterPanel -> htmlCiktisiVer();
 ?>
