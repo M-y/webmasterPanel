@@ -8,17 +8,7 @@ $webmasterPanel = new webmasterPanel(); /// @warning bu nesne tanımlanmadan ön
 /// Bu sayfanın başlığı (En basitinden <title></title> için kullanılacak)
 define('baslik', 'Webmaster Panel');
 
-/// Modülleri listele
-$moduller = $webmasterPanel -> moduller();
-echo '<ul>';
-foreach ( $moduller as $modul ) {
-  echo '<li>';
-  echo '<a href="' . siteAdresi . '/modul.php?modul=' . $modul['kisaAd'] . '">' . $modul['ad'] . '</a>';
-  echo '</li>';
-}
-echo '</ul>';
-
-
+require(anaKlasor . '/temalar/' . $webmasterPanel -> seciliTema . '/anasayfa.php');
 
 $webmasterPanel -> htmlCiktisiVer();
 ?>

@@ -102,5 +102,26 @@ class webmasterPanel {
     return trim($baslik[1]);
   }
   
+  /**
+   * 
+   */
+  function menu() {
+    /// Modülleri listele
+    $moduller = $this -> moduller();
+    echo '<ul>';
+      echo '<li><a href="' . siteAdresi . '">Anasayfa</a></li>';
+      echo '<li><a href="#">Modlüller</a>';
+	echo '<ul>';
+	foreach ( $moduller as $modul ) {
+	  echo '<li>';
+	  echo '<a href="' . siteAdresi . '/modul.php?modul=' . $modul['kisaAd'] . '">' . $modul['ad'] . '</a>';
+	  echo '</li>';
+	}
+	echo '</ul>';
+      echo '</li>';
+      echo '<li><a href="' . siteAdresi . '/ayarlar.php">Ayarlar</a></li>';
+    echo '</ul>';
+  }
+  
 }
 ?>

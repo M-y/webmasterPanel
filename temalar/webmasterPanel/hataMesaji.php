@@ -1,1 +1,1 @@
-<?php echo $mesaj; ?>
+<p class="warning"><?php echo $mesaj; ?></p>
