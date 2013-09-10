@@ -23,6 +23,7 @@ class veritabani extends PHPSQLParser {
   function baglan($server = sqlSunucu, $username = sqlUser, $password = sqlPass, $db = sqlDB) {
     $this -> baglanti = mysql_connect($server, $username, $password);
     mysql_select_db($db);
+    mysql_query("SET NAMES 'utf8'");
   }
   
   /**
@@ -104,8 +105,11 @@ class veritabani extends PHPSQLParser {
 		$temizSQL .= " {$deyim['base_expr']} ";
 	      break;
 	      case 'const':
+		$tirnakYok = false;
+		if ( trim($deyim['base_expr'], "'") == $deyim['base_expr'] )
+		  $tirnakYok = true;
 		$geciciConst = $this -> sqlTemizle(trim($deyim['base_expr'], "'"));
-		if ( !is_numeric($geciciConst) )
+		if ( !$tirnakYok )
 		  $geciciConst = $this -> tekTirnak($geciciConst);
 		$temizSQL .= $geciciConst;
 		unset($geciciConst);
@@ -115,7 +119,7 @@ class veritabani extends PHPSQLParser {
 	    }
 	break;
 	default:
-	  echo "{$parca[key]} anahtarı tanınmıyor. ";
+	  echo "{$parca['key']} anahtarı tanınmıyor. ";
       }
     
     $donenSonuc = $this -> sqlSorgusuCalistir($temizSQL);
@@ -128,6 +132,64 @@ class veritabani extends PHPSQLParser {
       $satirlar = $satirlar[0];
     
     return $satirlar;
+  }
+  
+  /**
+   * Veritabanına kayıt ekler. 
+   * @p INSERTMetni: INSERT INTO ile başlayan bir sql metni
+   * 
+   * @return
+   * Eğer sorgu başarıyla çalıştırılırsa etkilenen kayıt sayısı döner.
+   * Eğer sorgu çalıştırılamazsa false döner.
+   * 
+   * @todo karmaşık sorgulara uygun şekilde geliştirmek lazım
+   */
+  function kayitEkle($INSERTMetni) {
+    $sqlParcalari = $this -> parse($INSERTMetni);
+    $temizSQL = '';
+    while ( $parca = each($sqlParcalari) )
+      switch ( $parca['key'] ) {
+	case 'INSERT':
+	  $temizSQL .= 'INSERT INTO ';
+	  $parca = $parca['value'];
+	  $temizSQL .= $parca['table'] . ' (';
+	  $ilkSutun = true;
+	  foreach ( $parca['columns'] as $sutun ) {
+	    $temizSQL .= (($ilkSutun) ? '' : ',') . $this -> sqlTemizle($sutun['base_expr']);
+	    $ilkSutun = false;
+	  }
+	  $temizSQL .= ')';
+	break;
+	case 'VALUES':
+	  foreach( $parca['value'] as $deyim )
+	    switch ( $deyim['expr_type'] ) {
+	      case 'record';
+		$temizSQL .= ' VALUES (';
+		foreach( $deyim['data'] as $data ) {
+		  $tirnakSiz = false;
+		  if ( trim($data['base_expr'], "'") == $data['base_expr'] )
+		    $tirnakSiz = true;
+		  $data['base_expr'] = trim($data['base_expr'], "'");
+		  $data['base_expr'] = $this -> sqlTemizle($data['base_expr']);
+		  if ( !$tirnakSiz )
+		    $data['base_expr'] = $this -> tekTirnak($data['base_expr']);
+		  $temizSQL .= $data['base_expr'] . ',';
+		}
+		$temizSQL = rtrim($temizSQL, ',') . ')';
+	      break;
+	      default:
+		echo "{$deyim['expr_type']} tipi tanınmıyor. ";
+	    }
+	break;
+	default:
+	  echo "{$parca['key']} anahtarı tanınmıyor. ";
+      }
+    
+    $donenSonuc = $this -> sqlSorgusuCalistir($temizSQL);
+    if ( $donenSonuc )
+      return mysql_affected_rows($this -> baglanti);
+    else
+      return $donenSonuc;
   }
   
   /**

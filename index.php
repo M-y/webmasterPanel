@@ -18,10 +18,7 @@ foreach ( $moduller as $modul ) {
 }
 echo '</ul>';
 
-$veritabani = new veritabani();
 
-$donen = $veritabani -> kayitOku("SELECT * FROM tablo WHERE test='deneme' or no = 1");
-var_dump($donen);
 
 $webmasterPanel -> htmlCiktisiVer();
 ?>
