@@ -10,5 +10,5 @@
   ?>
 </head>
 <body>
-  <div class="container">
+  <div class="kapsayici">
 <?php require('header.php');?>
