@@ -166,13 +166,11 @@ class veritabani extends PHPSQLParser {
 	      case 'record';
 		$temizSQL .= ' VALUES (';
 		foreach( $deyim['data'] as $data ) {
-		  $tirnakSiz = false;
-		  if ( trim($data['base_expr'], "'") == $data['base_expr'] )
-		    $tirnakSiz = true;
 		  $data['base_expr'] = trim($data['base_expr'], "'");
 		  $data['base_expr'] = $this -> sqlTemizle($data['base_expr']);
-		  if ( !$tirnakSiz )
+		  if ( !is_numeric($data['base_expr']) )
 		    $data['base_expr'] = $this -> tekTirnak($data['base_expr']);
+		  
 		  $temizSQL .= $data['base_expr'] . ',';
 		}
 		$temizSQL = rtrim($temizSQL, ',') . ')';
