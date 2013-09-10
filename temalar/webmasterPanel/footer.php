@@ -3,7 +3,7 @@
 
   <nav class="menu_bottom">
     <ul>
-      <li><a href="http://www.webmasterpanel.net/">Webmaster Panel Web Sitesi</a></li>
+      <li>Destek olun: <a href="http://www.webmasterpanel.net/">Webmaster Panel Net</a></li>
     </ul>
   </nav>
 </footer>

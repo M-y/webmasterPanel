@@ -1,11 +1,12 @@
 <?php
 require_once('ayarlar.php');
+require_once('veritabani.php');
 ob_start();
 
 /**
  * Webmaster Panel Sınıfı
  */
-class webmasterPanel {
+class webmasterPanel extends veritabani {
   
   /**
    * Özellik tanımlamaları
@@ -58,6 +59,13 @@ class webmasterPanel {
   }
   
   /**
+   * Afilli bir mesaj
+   */
+  function mesaj($mesaj) {
+    require(anaKlasor . '/temalar/' . $this -> seciliTema . '/mesaj.php');
+  }
+  
+  /**
    * Afilli bir hata mesajı
    */
   function hataMesaji($mesaj) {
@@ -103,7 +111,7 @@ class webmasterPanel {
   }
   
   /**
-   * 
+   * <ul></ul> tagları ile bir menü çıktılar
    */
   function menu() {
     /// Modülleri listele
@@ -123,5 +131,54 @@ class webmasterPanel {
     echo '</ul>';
   }
   
+  /**
+   * Veritabanında veri tutmak için kullanılır
+   * 
+   * veri yoksa yeni kayıt yapar
+   * veri varsa günceller
+   * 
+   * @p veriAdi: Veriniz için benzersiz bir isim. @warning Bu isim diğer modüllerle vs. çakışmaması gerekir
+   * @p veri: Tutulacak veri
+   * 
+   * @warning resource tipindeki veriler tutulamaz.
+   */
+  function ayarKaydet($veriAdi, $veri) {
+    $veri = serialize($veri);
+    
+    if ( !$this -> kayitOku("SELECT no FROM ayarlar WHERE ad = '{$veriAdi}'") ) { // Kayıt yoksa ekle
+      $ekle = $this -> kayitEkle("INSERT INTO ayarlar (ad, veri) VALUES ('{$veriAdi}', '{$veri}')");
+      if ( $ekle === false )
+	$this -> hataMesaji('Ayar eklenirken hata oluştu. ');
+    }
+    else { // Kayıt varsa güncelle
+      $guncelle = $this -> kayitGuncelle("UPDATE ayarlar SET veri = '{$veri}' WHERE ad = '{$veriAdi}'");
+      if ( $guncelle === false )
+	$this -> hataMesaji('Ayar güncellenirken hata oluştu. ');
+    }
+  }
+  
+  /**
+   * Daha önce kaydedilmiş bir veriyi okur. 
+   * 
+   * @p veriAdi: okunacak verinin kaydederken kullandığınız adı
+   * 
+   * @return Veri okunamazsa false döndürür
+   */
+  function ayarOku($veriAdi) {
+    $oku = $this -> kayitOku("SELECT veri FROM ayarlar WHERE ad = '{$veriAdi}'");
+    if ( $oku == false )
+      return false;
+    return unserialize($oku['veri']);
+  }
+  
+  /**
+   * Daha önce kaydedilmiş bir veriyi siler
+   * 
+   * @p veriAdi: silinecek verinin kaydederken kullandığınız adı
+   */
+  function ayarSil($veriAdi) {
+    if ( $this -> kayitSil("DELETE FROM ayarlar WHERE ad = '{$veriAdi}'") === false )
+      $this -> hataMesaji('Ayar silinirken hata oluştu. ');
+  }
 }
 ?>

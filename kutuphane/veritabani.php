@@ -191,6 +191,166 @@ class veritabani extends PHPSQLParser {
   }
   
   /**
+   * Veritabanında kayıt güncellemek için kullanılır. 
+   * @p UPDATEMetni: UPDATE ile başlayan bir sql metni
+   * 
+   * @return
+   * Eğer sorgu başarıyla çalıştırılırsa etkilenen kayıt sayısı döner.
+   * Eğer sorgu çalıştırılamazsa false döner.
+   * 
+   * @todo karmaşık sorgulara uygun şekilde geliştirmek lazım
+   */
+  function kayitGuncelle ($UPDATEMetni) {
+    $sqlParcalari = $this -> parse($UPDATEMetni);
+    $temizSQL = '';
+    while ( $parca = each($sqlParcalari) )
+      switch ( $parca['key'] ) {
+	case 'UPDATE':
+	  $temizSQL .= 'UPDATE ';
+	  $parca = $parca['value'];
+	  foreach ( $parca as $deyim )
+	    switch ( $deyim['expr_type'] ) {
+	      case 'table':
+		$temizSQL .= $this -> sqlTemizle($deyim['base_expr']);
+	      break;
+	      default:
+		echo "{$deyim['expr_type']} tipi tanınmıyor. ";
+	    }
+	break;
+	case 'SET':
+	  $temizSQL .= ' SET ';
+	  $parca = $parca['value'];
+	  foreach ( $parca as $deyim ) {
+	    switch ( $deyim['expr_type'] ) {
+	      case 'expression':
+		foreach ( $deyim['sub_tree'] as $subtree ) 
+		  switch ( $subtree['expr_type'] ) {
+		    case 'colref':
+		      $temizSQL .= $this -> sqlTemizle($subtree['base_expr']);
+		    break;
+		    case 'operator':
+		      $temizSQL .= $subtree['base_expr'];
+		    break;
+		    case 'const':
+		      $subtree['base_expr'] = trim($subtree['base_expr'], "'");
+		      $subtree['base_expr'] = $this -> sqlTemizle($subtree['base_expr']);
+		      if ( !is_numeric($subtree['base_expr']) )
+			$subtree['base_expr'] = $this -> tekTirnak($subtree['base_expr']);
+		      $temizSQL .= $subtree['base_expr'];
+		    break;
+		    default:
+		      echo "{$subtree['expr_type']} tipi tanınmıyor. ";
+		  }
+	      break;
+	      default:
+		echo "{$deyim['expr_type']} tipi tanınmıyor. ";
+	    }
+	    $temizSQL .= ',';
+	  }
+	  $temizSQL = rtrim($temizSQL, ',');
+	break;
+	case 'WHERE':
+	  $temizSQL .= ' WHERE ';
+	  $parca = $parca['value'];
+	  foreach ( $parca as $deyim )
+	    switch ( $deyim['expr_type'] ) {
+	      case 'colref':
+		$temizSQL .= $this -> sqlTemizle($deyim['base_expr']);
+	      break;
+	      case 'operator':
+		$temizSQL .= " {$deyim['base_expr']} ";
+	      break;
+	      case 'const':
+		$tirnakYok = false;
+		if ( trim($deyim['base_expr'], "'") == $deyim['base_expr'] )
+		  $tirnakYok = true;
+		$geciciConst = $this -> sqlTemizle(trim($deyim['base_expr'], "'"));
+		if ( !$tirnakYok )
+		  $geciciConst = $this -> tekTirnak($geciciConst);
+		$temizSQL .= $geciciConst;
+		unset($geciciConst);
+	      break;
+	      default:
+		echo "{$deyim['expr_type']} tipi tanınmıyor. ";
+	    }
+	break;
+	default:
+	  echo "{$parca['key']} anahtarı tanınmıyor. ";
+      }
+      
+    $donenSonuc = $this -> sqlSorgusuCalistir($temizSQL);
+    if ( $donenSonuc )
+      return mysql_affected_rows($this -> baglanti);
+    else
+      return $donenSonuc;
+  }
+  
+  /**
+   * Veritabanından kayıt silmek için kullanılır.
+   * 
+   * @p DELETEMetni: DELETE FROM ile başlayan bir sql metni
+   * 
+   * @return
+   * Eğer sorgu başarıyla çalıştırılırsa etkilenen kayıt sayısı döner.
+   * Eğer sorgu çalıştırılamazsa false döner.
+   */
+  function kayitSil($DELETEMetni) {
+    $sqlParcalari = $this -> parse($DELETEMetni);
+    $temizSQL = '';
+    while ( $parca = each($sqlParcalari) )
+      switch ( $parca['key'] ) {
+	case 'DELETE':
+	  $temizSQL .= 'DELETE ';
+	break;
+	case 'FROM':
+	  $temizSQL .= 'FROM ';
+	  $parca = $parca['value'];
+	  foreach ( $parca as $deyim )
+	    switch ( $deyim['expr_type'] ) {
+	      case 'table':
+		$temizSQL .= $this -> sqlTemizle($deyim['base_expr']);
+	      break;
+	      default:
+		echo "{$deyim['expr_type']} tipi tanınmıyor. ";
+	    }
+	break;
+	case 'WHERE':
+	  $temizSQL .= ' WHERE ';
+	  $parca = $parca['value'];
+	  foreach ( $parca as $deyim )
+	    switch ( $deyim['expr_type'] ) {
+	      case 'colref':
+		$temizSQL .= $this -> sqlTemizle($deyim['base_expr']);
+	      break;
+	      case 'operator':
+		$temizSQL .= " {$deyim['base_expr']} ";
+	      break;
+	      case 'const':
+		$tirnakYok = false;
+		if ( trim($deyim['base_expr'], "'") == $deyim['base_expr'] )
+		  $tirnakYok = true;
+		$geciciConst = $this -> sqlTemizle(trim($deyim['base_expr'], "'"));
+		if ( !$tirnakYok )
+		  $geciciConst = $this -> tekTirnak($geciciConst);
+		$temizSQL .= $geciciConst;
+		unset($geciciConst);
+	      break;
+	      default:
+		echo "{$deyim['expr_type']} tipi tanınmıyor. ";
+	    }
+	break;
+	default:
+	  echo "{$parca['key']} anahtarı tanınmıyor. ";
+      }
+      
+    $donenSonuc = $this -> sqlSorgusuCalistir($temizSQL);
+    if ( $donenSonuc )
+      return mysql_affected_rows($this -> baglanti);
+    else
+      return $donenSonuc;
+  }
+  
+  /**
    * Verilen string in başına ve sonuna ' atar
    */
   function tekTirnak ($string) {

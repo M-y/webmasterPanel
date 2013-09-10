@@ -302,15 +302,6 @@ a.button:active,
   -moz-border-radius:8px;
   border-radius:8px;
 }
-.message {
-  border:1px solid #d7cf49;
-  color:#fff;
-  background:#d7cf49;
-  padding:8px 14px;
-  -webkit-border-radius:8px;
-  -moz-border-radius:8px;
-  border-radius:8px;
-}
 
 
 @media only screen and (max-width:480px) { /* Smartphone custom styles */
