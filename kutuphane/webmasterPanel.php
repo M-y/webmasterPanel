@@ -22,6 +22,8 @@ class webmasterPanel extends veritabani {
    * Temayı yükleyip html çıktısını verir. 
    */
   function htmlCiktisiVer() {
+    $this -> jsYukle(siteAdresi . '/cron.php'); // Cronu her sayfada çağır
+    
     $orta = ob_get_contents();
     ob_end_clean();
     
@@ -162,7 +164,7 @@ class webmasterPanel extends veritabani {
    * 
    * @p veriAdi: okunacak verinin kaydederken kullandığınız adı
    * 
-   * @return Veri okunamazsa false döndürür
+   * @return Veri yoksa false döndürür
    */
   function ayarOku($veriAdi) {
     $oku = $this -> kayitOku("SELECT veri FROM ayarlar WHERE ad = '{$veriAdi}'");
