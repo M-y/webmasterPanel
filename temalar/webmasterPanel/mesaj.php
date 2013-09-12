@@ -1,0 +1,1 @@
+<p class="success"><?php echo $mesaj; ?></p>
