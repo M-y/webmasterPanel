@@ -134,15 +134,13 @@ class webmasterPanel extends veritabani {
   }
   
   /**
-   * Veritabanında veri tutmak için kullanılır
+   * Veritabanında veri tutmak için kullanılır. 
    * 
    * veri yoksa yeni kayıt yapar
    * veri varsa günceller
    * 
    * @p veriAdi: Veriniz için benzersiz bir isim. @warning Bu isim diğer modüllerle vs. çakışmaması gerekir
-   * @p veri: Tutulacak veri
-   * 
-   * @warning resource tipindeki veriler tutulamaz.
+   * @p veri: Tutulacak veri. Veri herhangi bir tipte olabilir (string, integer gibi...) @warning resource tipindeki veriler tutulamaz.
    */
   function ayarKaydet($veriAdi, $veri) {
     $veri = serialize($veri);
