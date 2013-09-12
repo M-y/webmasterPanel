@@ -1,5 +1,1 @@
-test
-test
-aloo
-2
-3
+katkı yapalım
