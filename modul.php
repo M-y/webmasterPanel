@@ -12,7 +12,7 @@ if ( isset($_GET['modul']) ) {
   if ( file_exists(anaKlasor . '/moduller/' . $_GET['modul'] . '/' . $_GET['modul'] . '.php') ) { // klasör var mı?
     $modulDosyasi = anaKlasor . '/moduller/' . $_GET['modul'] . '/' . $_GET['modul'] . '.php';
   }
-  else if ( file_exists(anaKlasor . 'moduller/' . $_GET['modul'] . '.php') ) { // .php dosyası var mı?
+  else if ( file_exists(anaKlasor . '/moduller/' . $_GET['modul'] . '.php') ) { // .php dosyası var mı?
     $modulDosyasi = anaKlasor . '/moduller/' . $_GET['modul'] . '.php';
   }
   else // Böyle bir modül yok

@@ -30,6 +30,10 @@ ul li, ol li {
   margin:0 auto;
 }
 
+.sayfa {
+  padding: 0 0 2.5em;
+}
+
 .header {
   padding:2em 2% 2em 2%;
   background:#313131;
@@ -348,13 +352,15 @@ a.button:active,
 
 /* Dropdown menu */
 .menu_main li {
+  background:#515151;
+  padding: 5px;
   position:relative;
 }
 .menu_main li ul {
   display:none;
-  background:#499CD7;
+  background:#515151;
   padding:10px 3px;
-  border:1px solid #3D83B4;
+  border:1px solid #5E5E5E;
   text-align:left;
   width:12em;
   -webkit-box-shadow:rgba(0,0,0,0.2) 0px 4px 6px;
@@ -371,13 +377,15 @@ a.button:active,
   padding:3px;
 }
 .menu_main li ul a:hover{
-  background:#3D83B4;
+  background:#B2B2B2;
+  color: #000 !important;
 }
 .menu_main li:hover ul {
   display:block;
   position:absolute;
   right:-1em;
   top:100%;
+  z-index: 1;
 }
 /* End dropdown menu */
 

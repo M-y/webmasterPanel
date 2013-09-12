@@ -12,3 +12,4 @@
 <body>
   <div class="kapsayici">
 <?php require('header.php');?>
+    <div class="sayfa">
