@@ -1,4 +1,4 @@
 webmasterPanel
 ==============
 
-https://github.com/COMU/bohca/wiki/G%C4%B0T-KULLANIM-KLAVUZU
+[Bilgi için wiki sayfasına bakınız. ](https://github.com/M-y/webmasterPanel/wiki)
