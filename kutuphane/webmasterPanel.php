@@ -22,7 +22,7 @@ class webmasterPanel extends veritabani {
    * Temayı yükleyip html çıktısını verir. 
    */
   function htmlCiktisiVer() {
-    $this -> jsYukle(siteAdresi . '/cron.php'); // Cronu her sayfada çağır
+    $this -> jsYukle(siteAdresi . '/cron.php'); /// Cronu her sayfada çağır @todo cron`un ajax ile çağrılması lazım
     
     $orta = ob_get_contents();
     ob_end_clean();

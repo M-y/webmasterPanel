@@ -19,6 +19,9 @@ if ( isset($_GET['siteSil']) ) {
     $webmasterPanel -> ayarKaydet('uptime_siteler', $silindi);
   else
     $webmasterPanel -> ayarSil('uptime_siteler');
+  
+  // Bu siteye ait ayarları sil
+  $webmasterPanel -> ayarSil("uptime_{$_GET['siteSil']}");
 }
 
 /// Siteleri listele
