@@ -23,6 +23,9 @@ if ( isset($_GET['siteSil']) ) {
     $webmasterPanel -> ayarKaydet('siralama_siteler', $silindi);
   else
     $webmasterPanel -> ayarSil('siralama_siteler');
+  
+  // Bu siteye ait ayarları sil
+  $webmasterPanel -> ayarSil("siralama_PR_{$_GET['siteSil']}");
 }
 
 /// Siteleri listele
