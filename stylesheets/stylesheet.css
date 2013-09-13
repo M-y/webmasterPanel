@@ -317,9 +317,19 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
+#surum {
+  font-size: 24px;
+  font-weight: 300;
+  position: absolute;
+  bottom: -40px;
+  right: 130px;
+  text-shadow: #111 0px 0px 10px;
+  
+}
+
 #downloads {
   position: absolute;
-  width: 210px;
+  width: 120px;
   z-index: 10;
   bottom: -40px;
   right: 0;
