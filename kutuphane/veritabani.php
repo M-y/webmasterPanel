@@ -4,10 +4,16 @@ require_once(anaKlasor . '/kutuphane/harici/PHP-SQL-Parser/php-sql-parser.php');
 
 /**
  * Veritabanı işlemlerinde kullanılan sınıf
+ * 
+ * @todo php-sql-creator.php var. O ne işe yarıyor?
  */
 class veritabani extends PHPSQLParser {
   
   private $baglanti = null;
+  
+  function __construct() {
+    parent::__construct();
+  }
   
   /**
    * Sql sunucusuna bağlantı kurar

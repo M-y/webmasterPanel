@@ -18,6 +18,12 @@ class webmasterPanel extends veritabani {
   /// html çıktısında head içine bu değişken yazılır. 
   private $html_head = '';
   
+  function __construct() {
+    parent::__construct();
+    if ( $tema = $this -> ayarOku('webmasterPanel_tema') )
+      $this -> seciliTema = $tema;
+  }
+  
   /**
    * Temayı yükleyip html çıktısını verir. 
    */
@@ -129,7 +135,7 @@ class webmasterPanel extends veritabani {
 	}
 	echo '</ul>';
       echo '</li>';
-      echo '<li><a href="' . siteAdresi . '/ayarlar.php">Ayarlar</a></li>';
+      echo '<li><a href="' . siteAdresi . '/ayar.php">Ayarlar</a></li>';
     echo '</ul>';
   }
   
