@@ -12,16 +12,17 @@
  * 	   Kapalıysa false döndürür. 
  */
 function acikMi($adres) {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $adres);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_HEADER, true);
-  $dondur = curl_exec($ch);
-  curl_close($ch);
-  /// @todo gelen header kontrol edilerek açık mı ona göre karar verilmesi lazım
-  if ( strlen($dondur) > 0 )
-    return true;
-  else
+  if ( !preg_match('#^htt#i', $adres) ) /// @todo pek güzel olmadı
+    $adres = 'http://' . $adres;
+  
+  $headers = get_headers($adres); /// @todo bazı sunucular 403 verebiliyor.
+  if ( $headers === false )
     return false;
+  $durum = substr($headers[0], 9, 1); 
+  
+  if ( $durum > 3 ) // status code 3 den büyükse sorun vardır
+    return false;
+  else
+    return true;
 }
 ?>

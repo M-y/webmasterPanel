@@ -6,7 +6,8 @@
  * baslik: Site Sıralamaları
  */
 
-require('GTB_PageRank.php');
+require(anaKlasor . '/moduller/siralama/GTB_PageRank.php');
+require(anaKlasor . '/moduller/siralama/fonksiyonlar.php');
 
 echo '<div class="sutun_50">';
 echo '<h2>Site Sıralamaları Modülü</h2>';
@@ -16,6 +17,9 @@ echo '<div class="clearfix"></div>';
 
 if ( isset($_GET['PR']) )
   require('pr.php');
+else
+if ( isset($_GET['googleIndex']) )
+  require('googleIndex.php');
 else
   require('anasayfa.php');
 
