@@ -337,11 +337,10 @@ Full-Width Styles
   font-weight: 300;
   position: absolute;
   bottom: -40px;
-  right: 130px;
+  right: 0;
+  height: 30px;
+  width: 130px;
   text-shadow: #111 0px 0px 10px;
-}
-#surumFrame {
-  display: none;
 }
 
 #downloads {
@@ -349,7 +348,7 @@ Full-Width Styles
   width: 120px;
   z-index: 10;
   bottom: -40px;
-  right: 0;
+  right: 130px;
   height: 70px;
   background: url('../images/icon_download.png') no-repeat 0% 90%;
 }
