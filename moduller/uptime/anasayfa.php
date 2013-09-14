@@ -25,16 +25,20 @@ if ( isset($_GET['siteSil']) ) {
 }
 
 /// Siteleri listele
-require('fonksiyonlar.php');
+require(anaKlasor . '/moduller/uptime/fonksiyonlar.php');
 $siteler = $webmasterPanel -> ayarOku('uptime_siteler');
 if ( $siteler ) {
   echo '<table id="siteler">';
   echo '<h3>Siteler</h3>';
-  echo '<tr><th>Site</th><th>Durum</th></tr>';
+  echo '<tr><th>Site</th><th>Şuan</th><th>Genel</th></tr>';
     foreach ( $siteler as $site ) {
       echo '<tr>';
 	echo '<td><a href="' . siteAdresi . '/modul.php?modul=uptime&site=' . $site . '">' . $site . '</a></td>';
 	echo '<td>' . ((acikMi($site)) ? 'Açık' : 'Kapalı') . '</td>';
+	
+	$buSiteIstatistikleri = $webmasterPanel -> ayarOku("uptime_{$site}");
+	echo '<td>%' . (100 * array_sum($buSiteIstatistikleri) / count($buSiteIstatistikleri)) . '</td>';
+	
 	echo '<td><a href="' . siteAdresi . '/modul.php?modul=uptime&siteSil=' . $site . '">Sil</a></td>';
       echo '</tr>';
     }

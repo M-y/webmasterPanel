@@ -1,4 +1,5 @@
 <?php
+/// @todo bir cron işlemi çalışırken diğer bir tane başlamasın
 header("Content-Length: 0");
 header("Connection: close");
 while ( @ob_end_flush() );

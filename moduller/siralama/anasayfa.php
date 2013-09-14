@@ -26,23 +26,32 @@ if ( isset($_GET['siteSil']) ) {
   
   // Bu siteye ait ayarları sil
   $webmasterPanel -> ayarSil("siralama_PR_{$_GET['siteSil']}");
+  $webmasterPanel -> ayarSil("siralama_googleIndex_{$_GET['siteSil']}");
 }
 
 /// Siteleri listele
 $siteler = $webmasterPanel -> ayarOku('siralama_siteler');
 if ( $siteler ) {
   echo '<table id="siteler">';
-  echo '<tr><th>Site</th><th>PR</th></tr>';
+  echo '<tr><th>Site</th><th>PR</th><th>Google Index</th></tr>';
     foreach ( $siteler as $site ) {
       echo '<tr>';
+      
 	echo '<td>' . $site . '</td>';
+	
 	echo '<td>';
 	  echo '<a href="' . siteAdresi . '/modul.php?modul=siralama&PR=' . $site . '">';
 	    $pagerank = new GTB_PageRank($site);
 	    echo $pagerank->getPageRank();
 	  echo '</a>';
 	echo '</td>';
+	
+	echo '<td>';
+	echo '<a href="' . siteAdresi . '/modul.php?modul=siralama&googleIndex=' . $site . '">' . googleIndex($site) . '</a>';
+	echo '</td>';
+	
 	echo '<td><a href="' . siteAdresi . '/modul.php?modul=siralama&siteSil=' . $site . '">Sil</a></td>';
+	
       echo '</tr>';
     }
   echo '</table>';
