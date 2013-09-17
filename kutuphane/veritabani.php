@@ -367,7 +367,10 @@ class veritabani extends PHPSQLParser {
    * İstemciden gelen verileri temizlemek için
    */
   function sqlTemizle ($veri) {
-    return mysql_real_escape_string($veri);
+    if ( $this -> baglanti == null ) // Bağlantı kurulmamışsa bağlantı kur.
+      $this -> baglan();
+    
+    return mysql_real_escape_string($veri, $this -> baglanti);
   }
 }
 ?>
