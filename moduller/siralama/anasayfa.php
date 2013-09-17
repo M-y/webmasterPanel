@@ -33,7 +33,7 @@ if ( isset($_GET['siteSil']) ) {
 $siteler = $webmasterPanel -> ayarOku('siralama_siteler');
 if ( $siteler ) {
   echo '<table id="siteler">';
-  echo '<tr><th>Site</th><th>PR</th><th>Google Index</th></tr>';
+  echo '<tr><th>Site</th><th>PR</th><th>Alexa</th><th>Google Index</th><th>SERP</th></tr>';
     foreach ( $siteler as $site ) {
       echo '<tr>';
       
@@ -47,8 +47,14 @@ if ( $siteler ) {
 	echo '</td>';
 	
 	echo '<td>';
+	echo '<a href="' . siteAdresi . '/modul.php?modul=siralama&alexaRank=' . $site . '">' . alexaRank($site) . '</a>';
+	echo '</td>';
+	
+	echo '<td>';
 	echo '<a href="' . siteAdresi . '/modul.php?modul=siralama&googleIndex=' . $site . '">' . googleIndex($site) . '</a>';
 	echo '</td>';
+	
+	echo '<td><a href="' . siteAdresi . '/modul.php?modul=siralama&SERP=' . $site . '">Göster</a></td>';
 	
 	echo '<td><a href="' . siteAdresi . '/modul.php?modul=siralama&siteSil=' . $site . '">Sil</a></td>';
 	
