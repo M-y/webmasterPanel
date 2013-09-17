@@ -12,7 +12,7 @@
  * 	   Kapalıysa false döndürür. 
  */
 function acikMi($adres) {
-  if ( !preg_match('#^htt#i', $adres) ) /// @todo pek güzel olmadı
+  if ( !preg_match('#^http#i', $adres) ) /// @todo pek güzel olmadı
     $adres = 'http://' . $adres;
   
   $headers = get_headers($adres); /// @todo bazı sunucular 403 verebiliyor.

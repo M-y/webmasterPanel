@@ -153,9 +153,9 @@ h1 {
   font-size:22px;
 }
 
-.form label {
-  display:inline-block;
-  padding:0 0 4px 0;
+form label {
+  display:block;
+  margin-top: 5px;
 }
 
 a.button,
