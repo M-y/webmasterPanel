@@ -24,6 +24,7 @@ function googleIndex($site) {
  * Alexa rank
  */
 function alexaRank($site) {
+  sleep(rand(1, 10)); // bir miktar beklemezsen banlıyor
   $sayfa = file_get_contents( 'http://data.alexa.com/data?cli=10&dat=snbamz&url=' . urlencode($site) );
   preg_match('#\<popularity url\=".*?" TEXT\="([0-9]+)"#si', $sayfa, $rank);
   return ( isset($rank[1]) ) ? $rank[1] : 0;
