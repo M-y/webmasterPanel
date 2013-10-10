@@ -5,7 +5,8 @@
 * baslik: Warez Tema Tespit Aracı
 */
 $webmasterPanel -> jsYukle('jquery-1.10.2.min.js');
-$webmasterPanel -> jsYukle('functions.js');
+$webmasterPanel -> jsYukle(siteAdresi.'/moduller/warez-tema-tespit/functions.js');
+$webmasterPanel -> cssYukle(siteAdresi.'/moduller/warez-tema-tespit/style.css');
 ?>	
 <div id="wtb">
 	<div id="aciklama">
