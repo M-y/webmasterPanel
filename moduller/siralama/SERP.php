@@ -30,7 +30,10 @@ else {
     echo '<tr>';
     echo "<td>{$tarih}</td>";
     foreach ( $kelimeler as $kelime )
-      echo "<td>{$kelime['istatistik'][$tarih]}</td>";
+      if ( isset($kelime['istatistik'][$tarih]) )
+	echo "<td>{$kelime['istatistik'][$tarih]}</td>";
+      else
+	echo "<td>0</td>";
     echo '</tr>';
   }
   echo '</table>';

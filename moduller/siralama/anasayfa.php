@@ -27,6 +27,8 @@ if ( isset($_GET['siteSil']) ) {
   // Bu siteye ait ayarları sil
   $webmasterPanel -> ayarSil("siralama_PR_{$_GET['siteSil']}");
   $webmasterPanel -> ayarSil("siralama_googleIndex_{$_GET['siteSil']}");
+  $webmasterPanel -> ayarSil("siralama_alexaRank_{$_GET['siteSil']}");
+  $webmasterPanel -> ayarSil("siralama_SERP_{$_GET['siteSil']}");
 }
 
 /// Siteleri listele
