@@ -13,7 +13,6 @@ echo '<h2>Domain Whois Sorgu Modülü</h2>';
 echo '</div>';
 echo '<div class="clearfix"></div>';
 
-/// Yeni link kaydet
 if ( isset($_POST['domain']) ) {
 	$whois=new Whois;
 	echo '<textarea style="
