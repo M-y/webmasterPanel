@@ -13,13 +13,13 @@ $webmasterPanel -> mesaj('Cron işlemlerinin düzgün çalışabilmesi için aş
 echo '<h3>Tema Seçimi</h3>';
 
 if ( isset($_POST['tema']) )
-  $webmasterPanel -> ayarKaydet('webmasterPanel_tema', $_POST['tema']);
+  $webmasterPanel -> ayarKaydet('webmasterPanel_tema', $_POST['tema'], true);
 
 echo '<form action="ayar.php" method="post">';
   echo '<select name="tema">';
     foreach ( scandir(anaKlasor . '/temalar') as $tema ) {
       if ( $tema != '.' && $tema != '..' && is_dir(anaKlasor . '/temalar/' . $tema) )
-      echo '<option' . ( ($webmasterPanel -> ayarOku('webmasterPanel_tema') == $tema) ? ' selected="1"' : '' ) . ' value="' . $tema . '">' . $tema . '</option>';
+      echo '<option' . ( ($webmasterPanel -> ayarOku('webmasterPanel_tema', true) == $tema) ? ' selected="1"' : '' ) . ' value="' . $tema . '">' . $tema . '</option>';
     }
   echo '</select>';
   echo '<input type="submit" value="Seç" class="button" />';

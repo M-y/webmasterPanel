@@ -2,6 +2,9 @@
 require_once('ayarlar.php');
 require_once('veritabani.php');
 ob_start();
+session_start();
+if ( isset($_GET['cikis']) )
+  session_destroy();
 
 /**
  * Webmaster Panel Sınıfı
@@ -20,8 +23,13 @@ class webmasterPanel extends veritabani {
   
   function __construct() {
     parent::__construct();
-    if ( $tema = $this -> ayarOku('webmasterPanel_tema') )
+    if ( $tema = $this -> ayarOku('webmasterPanel_tema' ,true) )
       $this -> seciliTema = $tema;
+    
+    if ( !isset($_SESSION['cevrimici']) ) {
+      require(anaKlasor . '/temalar/' . $this -> seciliTema . '/giris.php');
+      exit;
+    }
   }
   
   /**
@@ -136,6 +144,8 @@ class webmasterPanel extends veritabani {
 	echo '</ul>';
       echo '</li>';
       echo '<li><a href="' . siteAdresi . '/ayar.php">Ayarlar</a></li>';
+      if ( isset($_SESSION['cevrimici']) )
+	echo '<li><a href="' . siteAdresi . '?cikis=1">Çıkış</a></li>';
     echo '</ul>';
   }
   
@@ -147,8 +157,11 @@ class webmasterPanel extends veritabani {
    * 
    * @p veriAdi: Veriniz için benzersiz bir isim. @warning Bu isim diğer modüllerle vs. çakışmaması gerekir
    * @p veri: Tutulacak veri. Veri herhangi bir tipte olabilir (string, integer gibi...) @warning resource tipindeki veriler tutulamaz.
+   * @p genel: kullanıcıya özel olmayan bir ayarsa true yapılmalı
    */
-  function ayarKaydet($veriAdi, $veri) {
+  function ayarKaydet($veriAdi, $veri, $genel = false) {
+    if ( !$genel )
+      $veriAdi = $_SESSION['kullanici'] . $veriAdi; // her kullanıcıya özel veri olması için
     $veri = serialize($veri);
     
     if ( !$this -> kayitOku("SELECT no FROM ayarlar WHERE ad = '{$veriAdi}'") ) { // Kayıt yoksa ekle
@@ -167,10 +180,15 @@ class webmasterPanel extends veritabani {
    * Daha önce kaydedilmiş bir veriyi okur. 
    * 
    * @p veriAdi: okunacak verinin kaydederken kullandığınız adı
+   * @p genel: kullanıcıya özel olmayan bir ayarsa true yapılmalı
+   * @todo @warning cron işlemlerinde tüm kullanıcıların ayarlarının okunması sağlanmalı
    * 
    * @return Veri yoksa false döndürür
    */
-  function ayarOku($veriAdi) {
+  function ayarOku($veriAdi, $genel = false) {
+    if ( !$genel )
+      $veriAdi = $_SESSION['kullanici'] . $veriAdi;
+    
     $oku = $this -> kayitOku("SELECT veri FROM ayarlar WHERE ad = '{$veriAdi}'");
     if ( $oku == false )
       return false;
