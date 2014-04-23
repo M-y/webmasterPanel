@@ -13,7 +13,12 @@ $webmasterPanel -> mesaj('Cron işlemlerinin düzgün çalışabilmesi için aş
 echo '<h3>Tema Seçimi</h3>';
 
 if ( isset($_POST['tema']) )
+
+  if( is_dir( anaKlasor . '/temalar/' . $_POST['tema'] ) ):
+
   $webmasterPanel -> ayarKaydet('webmasterPanel_tema', $_POST['tema']);
+
+  endif;
 
 echo '<form action="ayar.php" method="post">';
   echo '<select name="tema">';
