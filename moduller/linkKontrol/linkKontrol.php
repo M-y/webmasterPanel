@@ -17,6 +17,11 @@ echo '<div class="clearfix"></div>';
 
 /// Yeni link kaydet
 if ( isset($_POST['islem']) && $_POST['islem'] == 'linkEkle' ) {
+  
+  if( !filter_var( $_POST['site'] , FILTER_VALIDATE_URL) OR !filter_var( $_POST['link'], FILTER_VALIDATE_URL )):
+    die('Üzgünüz, gerçek bir url girmediniz.');
+  endif;
+  
   $linkler = $webmasterPanel -> ayarOku('linkKontrol_linkler');
   $linkler[] = array(
     'site' => $_POST['site'], 
